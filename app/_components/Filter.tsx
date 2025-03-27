@@ -2,7 +2,6 @@
 
 import { X } from "lucide-react";
 
-import { useRouter, useSearchParams } from "next/navigation";
 import { ReactNode, useState } from "react";
 function InputBox({
   children,
@@ -45,9 +44,6 @@ function InputBox({
 }
 
 export default function Filter() {
-  const searchParams = useSearchParams();
-  const [searchQuery, setSearchQuery] = useState(searchParams);
-  console.log(searchQuery);
   const [ingeredient, setIngeredient] = useState("");
   const [mealName, setMealName] = useState("");
   const [minCalories, setMinCalories] = useState(0);
@@ -60,37 +56,40 @@ export default function Filter() {
   const [maxFats, setMaxFats] = useState(0);
   const [ingredients, setIngredients] = useState<string[]>([]);
 
-  const handleSetIngredients = (ingeredient: string, e: any) => {
+  const handleSetIngredients = (
+    ingeredient: string,
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
     e.preventDefault();
     if (ingeredient === "") return;
     setIngredients([...ingredients, ingeredient]);
     setIngeredient("");
   };
 
-  const handleMinCalories = (e: any) => {
-    setMinCalories(e.target.value);
+  const handleMinCalories = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMinCalories(Number(e.target.value));
     console.log("changes min calories");
   };
-  const handleMaxCalories = (e: any) => {
-    setMaxCalories(e.target.value);
+  const handleMaxCalories = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMaxCalories(Number(e.target.value));
   };
-  const handleMinProtein = (e: any) => {
-    setMinProtein(e.target.value);
+  const handleMinProtein = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMinProtein(Number(e.target.value));
   };
-  const handleMaxProtein = (e: any) => {
-    setMaxProtein(e.target.value);
+  const handleMaxProtein = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMaxProtein(Number(e.target.value));
   };
-  const hanleMinCarbs = (e: any) => {
-    setMinCarbs(e.target.value);
+  const hanleMinCarbs = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMinCarbs(Number(e.target.value));
   };
-  const handleMaxCarbs = (e: any) => {
-    setMaxCarbs(e.target.value);
+  const handleMaxCarbs = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMaxCarbs(Number(e.target.value));
   };
-  const hanleMinFats = (e: any) => {
-    setMinFats(e.target.value);
+  const hanleMinFats = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMinFats(Number(e.target.value));
   };
-  const hanleMaxFats = (e: any) => {
-    setMaxFats(e.target.value);
+  const hanleMaxFats = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMaxFats(Number(e.target.value));
   };
   return (
     <div className="max-w-120 flex  flex-col rounded-md bg-primary border-secondary border p-3 lg:flex-1 lg:mx-5">

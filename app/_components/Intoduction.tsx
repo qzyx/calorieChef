@@ -13,7 +13,8 @@ export default function Introduction() {
         Search by ingredients you already have, filter by dietary restrictions,
         or browse through thousands of recipes categorized by cuisine, meal
         type, and preparation time. From quick weeknight dinners to impressive
-        weekend feasts, find exactly what you're craving in just a few clicks.
+        weekend feasts, find exactly what you&apos;re craving in just a few
+        clicks.
       </p>
       <div className="flex gap-4 mt-2">
         <span className="px-3 py-1 bg-primary/10 rounded-full text-sm">
