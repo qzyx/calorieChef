@@ -2,6 +2,7 @@
 
 import { X } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { ReactNode, useState } from "react";
 function InputBox({
@@ -45,6 +46,8 @@ function InputBox({
 }
 
 export default function Filter() {
+  const router = useRouter();
+
   const [ingeredient, setIngeredient] = useState("");
   const [mealName, setMealName] = useState("");
   const [minCalories, setMinCalories] = useState(0);
@@ -57,6 +60,11 @@ export default function Filter() {
   const [maxFats, setMaxFats] = useState(0);
   const [ingredients, setIngredients] = useState<string[]>([]);
 
+  function applyFilter() {
+    const params = new URLSearchParams();
+    params.set("mealName", "1");
+    router.push(`/filter?${params.toString()}`);
+  }
   const handleSetIngredients = (
     ingeredient: string,
     e: React.FormEvent<HTMLFormElement>
@@ -199,11 +207,12 @@ export default function Filter() {
         </div>
       </div>
       <span className="flex mt-5 justify-center">
-        <Link href="/filter">
-          <button className="cursor-pointer w-30 h-10 font-joti text-background bg-secondary rounded-md">
-            FILTER
-          </button>
-        </Link>
+        <button
+          onClick={applyFilter}
+          className="cursor-pointer w-30 h-10 font-joti text-background bg-secondary rounded-md"
+        >
+          FILTER
+        </button>
       </span>
     </div>
   );
