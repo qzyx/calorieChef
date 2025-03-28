@@ -1,6 +1,7 @@
 "use client";
 
 import { X } from "lucide-react";
+import Link from "next/link";
 
 import { ReactNode, useState } from "react";
 function InputBox({
@@ -198,9 +199,11 @@ export default function Filter() {
         </div>
       </div>
       <span className="flex mt-5 justify-center">
-        <button className="cursor-pointer w-30 h-10 font-joti text-background bg-secondary rounded-md">
-          FILTER
-        </button>
+        <Link href="/filter">
+          <button className="cursor-pointer w-30 h-10 font-joti text-background bg-secondary rounded-md">
+            FILTER
+          </button>
+        </Link>
       </span>
     </div>
   );
