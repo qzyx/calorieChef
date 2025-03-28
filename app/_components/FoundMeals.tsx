@@ -27,10 +27,7 @@ export default function FoundMeals() {
   console.log("Max Fats:", maxFats);
   console.log("Ingredients:", ingredients);
   return (
-    <div className="flex-1 flex overflow-hidden flex-col lg:block shadow-md ring-1 ring-secondary rounded-md p-6 ml-4 bg-white ">
-      <h2 className="text-2xl font-semibold mb-4 text-primary">
-        Filtered Meals
-      </h2>
+    <div className="flex-1 flex overflow-hidden ml-3 flex-col lg:block shadow-md ring-1 ring-secondary rounded-md p-6  bg-white ">
       <div className=" flex gap-2 p-2 overflow-y-scroll"></div>
     </div>
   );

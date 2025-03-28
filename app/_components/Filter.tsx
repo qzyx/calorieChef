@@ -88,7 +88,7 @@ export default function Filter() {
   const [minFats, setMinFats] = useState(0);
   const [maxFats, setMaxFats] = useState(0);
   const [ingredients, setIngredients] = useState<string[]>([]);
-
+  const [filterError, setFilterError] = useState("");
   async function applyFilter() {
     const params = new URLSearchParams();
 
@@ -103,7 +103,12 @@ export default function Filter() {
     if (maxFats !== 0) params.append("maxFats", maxFats.toString());
     if (ingredients.length > 0)
       params.append("ingredients", ingredients.join(","));
-    router.push(`/filter?${params.toString()}`);
+    if (params.toString() !== "") {
+      router.push(`/filter?${params.toString()}`);
+    }
+    if (params.toString() === "") {
+      setFilterError("Please add at least one filter");
+    }
   }
   const handleSetIngredients = (
     ingeredient: string,
@@ -169,7 +174,7 @@ export default function Filter() {
   }, [ingeredient]);
 
   return (
-    <div className="max-w-120 flex  flex-col rounded-md bg-primary border-secondary border p-3 lg:flex-1 lg:mx-5">
+    <div className="max-w-120 flex select-none flex-col rounded-md bg-primary border-secondary border p-3 lg:flex-1 lg:mx-5">
       <span className="font-joti select-none text-3xl text-center mb-5 text-background">
         Filter
       </span>
@@ -295,7 +300,12 @@ export default function Filter() {
           ))}
         </div>
       </div>
-      <span className="flex mt-5 justify-center">
+      <span className="flex flex-col items-center mt-5 gap-2 ">
+        {filterError && (
+          <span className="text-red-500 font-joti text-center">
+            {filterError}
+          </span>
+        )}
         <button
           onClick={applyFilter}
           className="cursor-pointer w-30 h-10 font-joti text-background bg-secondary rounded-md"
