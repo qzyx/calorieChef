@@ -1,10 +1,10 @@
 "use client";
 
-import { X } from "lucide-react";
-import Link from "next/link";
+import { Plus, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
+import { getIngredientsAutoComplete } from "../_lib/spoonacularApi";
 function InputBox({
   children,
   valueMin,
@@ -62,14 +62,17 @@ export default function Filter() {
 
   function applyFilter() {
     const params = new URLSearchParams();
+    if (ingredients.length !== 0) {
+      params.set("ingredients", ingredients.join(","));
+    }
     params.set("mealName", "1");
     router.push(`/filter?${params.toString()}`);
   }
   const handleSetIngredients = (
     ingeredient: string,
-    e: React.FormEvent<HTMLFormElement>
+    e?: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
   ) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     if (ingeredient === "") return;
     setIngredients([...ingredients, ingeredient]);
     setIngeredient("");
@@ -100,6 +103,34 @@ export default function Filter() {
   const hanleMaxFats = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMaxFats(Number(e.target.value));
   };
+  interface Ingredient {
+    name: string;
+    image: string;
+    // Add other properties as needed
+  }
+  const [suggestions, setSuggestions] = useState<Ingredient[]>([]);
+  useEffect(() => {
+    if (ingeredient.length === 0) {
+      setSuggestions([]);
+      return;
+    } else {
+      async function fetchData() {
+        const data = await getIngredientsAutoComplete(ingeredient);
+        return data;
+      }
+
+      fetchData()
+        .then((data) => {
+          if (data) {
+            setSuggestions(data);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching ingredient suggestions:", error);
+        });
+    }
+  }, [ingeredient]);
+
   return (
     <div className="max-w-120 flex  flex-col rounded-md bg-primary border-secondary border p-3 lg:flex-1 lg:mx-5">
       <span className="font-joti select-none text-3xl text-center mb-5 text-background">
@@ -167,21 +198,42 @@ export default function Filter() {
             Ingredients (Optional)
           </label>
           <form
-            className="flex"
+            className="flex flex-col relative"
             onSubmit={(e) => handleSetIngredients(ingeredient, e)}
           >
-            <input
-              value={ingeredient}
-              onChange={(e) => setIngeredient(e.target.value)}
-              placeholder="...cheese"
-              className="bg-background py-2 text-lg px-4 w-full focus:outline-none text-secondary rounded-l-md  "
-            ></input>
-            <button
-              type="submit"
-              className="bg-secondary rounded-r-md w-[80%] hover:w-[100%] transition-all duration-300 focus:outline-none text-background font-joti cursor-pointer"
-            >
-              Add ingeredient
-            </button>
+            <div className="flex">
+              <input
+                value={ingeredient}
+                onChange={(e) => setIngeredient(e.target.value)}
+                placeholder="...cheese"
+                className="bg-background relative py-2 text-lg px-4 w-full focus:outline-none text-secondary rounded-l-md  "
+              ></input>
+              <button
+                type="submit"
+                className="bg-secondary rounded-r-md w-[80%] hover:w-[100%] transition-all duration-300 focus:outline-none text-background font-joti cursor-pointer"
+              >
+                Add ingeredient
+              </button>
+            </div>
+
+            {suggestions.length > 1 && (
+              <div className="absolute top-12 max-h-60 overflow-scroll flex flex-col py-1 gap-1 min-w-[40%] shadow-md bg-secondary select-none border-secondary border-2 rounded-md">
+                {suggestions.map((suggestion, idx) => (
+                  <div
+                    className="bg-primary mx-1 gap-2 justify-between items-center px-2 font-inknut text-background rounded-sm min-h-10 flex"
+                    key={idx}
+                  >
+                    <span>{suggestion.name}</span>
+                    <button
+                      className="p-1 border-secondary border cursor-pointer rounded-full bg-secondary hover:bg-primary hover:text-background transition-all duration-300"
+                      onClick={(e) => handleSetIngredients(suggestion.name, e)}
+                    >
+                      <Plus></Plus>
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </form>
         </div>
         <div className="mt-3 flex flex-wrap gap-1 rounded-md overflow-y-auto max-h-40">
