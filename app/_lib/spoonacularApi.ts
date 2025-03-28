@@ -6,3 +6,15 @@ export async function getIngredientsAutoComplete(query: string) {
   ).then((res) => res.json());
   return data;
 }
+
+export async function complexSearch(options: Record<string, string>) {
+  const url = "https://api.spoonacular.com/recipes/complexSearch";
+  // Accept parameters as an object with optional properties
+  const params = new URLSearchParams({
+    apiKey: apiKey, // Always include API key
+    number: "10", // Default to 10 results
+    ...options, // Spread any additional options that were passed
+  });
+  const data = await fetch(`${url}?${params}`).then((res) => res.json());
+  return data;
+}

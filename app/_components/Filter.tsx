@@ -4,7 +4,10 @@ import { Plus, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { ReactNode, useEffect, useState } from "react";
-import { getIngredientsAutoComplete } from "../_lib/spoonacularApi";
+import {
+  complexSearch,
+  getIngredientsAutoComplete,
+} from "../_lib/spoonacularApi";
 function InputBox({
   children,
   valueMin,
@@ -50,6 +53,38 @@ export default function Filter() {
 
   const [ingeredient, setIngeredient] = useState("");
   const [mealName, setMealName] = useState("");
+
+  // Initialize states from URL parameters on component load
+  useEffect(() => {
+    // Get the current URL search parameters
+    const searchParams = new URLSearchParams(window.location.search);
+
+    // Update states based on URL parameters if they exist
+    if (searchParams.has("mealName"))
+      setMealName(searchParams.get("mealName") || "");
+    if (searchParams.has("minCalories"))
+      setMinCalories(Number(searchParams.get("minCalories")));
+    if (searchParams.has("maxCalories"))
+      setMaxCalories(Number(searchParams.get("maxCalories")));
+    if (searchParams.has("minProtein"))
+      setMinProtein(Number(searchParams.get("minProtein")));
+    if (searchParams.has("maxProtein"))
+      setMaxProtein(Number(searchParams.get("maxProtein")));
+    if (searchParams.has("minCarbs"))
+      setMinCarbs(Number(searchParams.get("minCarbs")));
+    if (searchParams.has("maxCarbs"))
+      setMaxCarbs(Number(searchParams.get("maxCarbs")));
+    if (searchParams.has("minFats"))
+      setMinFats(Number(searchParams.get("minFats")));
+    if (searchParams.has("maxFats"))
+      setMaxFats(Number(searchParams.get("maxFats")));
+    if (searchParams.has("ingredients")) {
+      const ingredientsParam = searchParams.get("ingredients");
+      if (ingredientsParam) {
+        setIngredients(ingredientsParam.split(","));
+      }
+    }
+  }, []);
   const [minCalories, setMinCalories] = useState(0);
   const [maxCalories, setMaxCalories] = useState(0);
   const [minProtein, setMinProtein] = useState(0);
@@ -60,12 +95,20 @@ export default function Filter() {
   const [maxFats, setMaxFats] = useState(0);
   const [ingredients, setIngredients] = useState<string[]>([]);
 
-  function applyFilter() {
+  async function applyFilter() {
     const params = new URLSearchParams();
-    if (ingredients.length !== 0) {
-      params.set("ingredients", ingredients.join(","));
-    }
-    params.set("mealName", "1");
+
+    if (mealName) params.append("mealName", mealName);
+    if (minCalories !== 0) params.append("minCalories", minCalories.toString());
+    if (maxCalories !== 0) params.append("maxCalories", maxCalories.toString());
+    if (minProtein !== 0) params.append("minProtein", minProtein.toString());
+    if (maxProtein !== 0) params.append("maxProtein", maxProtein.toString());
+    if (minCarbs !== 0) params.append("minCarbs", minCarbs.toString());
+    if (maxCarbs !== 0) params.append("maxCarbs", maxCarbs.toString());
+    if (minFats !== 0) params.append("minFats", minFats.toString());
+    if (maxFats !== 0) params.append("maxFats", maxFats.toString());
+    if (ingredients.length > 0)
+      params.append("ingredients", ingredients.join(","));
     router.push(`/filter?${params.toString()}`);
   }
   const handleSetIngredients = (
