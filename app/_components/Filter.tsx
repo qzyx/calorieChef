@@ -4,10 +4,7 @@ import { Plus, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { ReactNode, useEffect, useState } from "react";
-import {
-  complexSearch,
-  getIngredientsAutoComplete,
-} from "../_lib/spoonacularApi";
+import { getIngredientsAutoComplete } from "../_lib/spoonacularApi";
 function InputBox({
   children,
   valueMin,
@@ -54,12 +51,9 @@ export default function Filter() {
   const [ingeredient, setIngeredient] = useState("");
   const [mealName, setMealName] = useState("");
 
-  // Initialize states from URL parameters on component load
   useEffect(() => {
-    // Get the current URL search parameters
     const searchParams = new URLSearchParams(window.location.search);
 
-    // Update states based on URL parameters if they exist
     if (searchParams.has("mealName"))
       setMealName(searchParams.get("mealName") || "");
     if (searchParams.has("minCalories"))
