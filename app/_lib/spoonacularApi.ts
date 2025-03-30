@@ -1,4 +1,4 @@
-const apiKey: string = "225797f3718042cca8ed0aa12fd8132a";
+const apiKey: string = "66c11734a0cc4722bbb665a760b1d167";
 
 export async function getIngredientsAutoComplete(query: string) {
   const data = await fetch(
@@ -7,14 +7,20 @@ export async function getIngredientsAutoComplete(query: string) {
   return data;
 }
 
-export async function complexSearch(options: Record<string, string>) {
+export async function complexSearch(passedParams: string) {
+  // Parse the passed parameters string into an object
+
   const url = "https://api.spoonacular.com/recipes/complexSearch";
   // Accept parameters as an object with optional properties
   const params = new URLSearchParams({
     apiKey: apiKey, // Always include API key
-    number: "10", // Default to 10 results
-    ...options, // Spread any additional options that were passed
+    number: "30", // Default to 10 results
+    // Include the parsed parameters
+    // Spread any additional options that were passed
   });
-  const data = await fetch(`${url}?${params}`).then((res) => res.json());
+
+  const data = await fetch(`${url}?${params}&${passedParams}`).then((res) =>
+    res.json()
+  );
   return data;
 }

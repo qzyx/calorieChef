@@ -1,6 +1,6 @@
 "use client";
 
-import { Plus, X } from "lucide-react";
+import { ListFilter, Plus, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { ReactNode, useEffect, useState } from "react";
@@ -308,9 +308,12 @@ export default function Filter() {
         )}
         <button
           onClick={applyFilter}
-          className="cursor-pointer w-30 h-10 font-joti text-background bg-secondary rounded-md"
+          className="cursor-pointer w-30 gap-2 flex items-center justify-center h-10 font-joti text-background bg-secondary rounded-md"
         >
-          FILTER
+          <span>
+            <ListFilter></ListFilter>
+          </span>
+          <span>FILTER</span>
         </button>
       </span>
     </div>
