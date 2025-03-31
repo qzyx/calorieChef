@@ -26,6 +26,29 @@ html {
 body {
   -ms-overflow-style: none;
 }
+
+/* Ensure the body and html can scroll */
+html,
+body {
+  height: 100%;
+  overflow: auto;
+  margin: 0;
+  padding: 0;
+}
+
+/* Add a default scroll behavior */
+body {
+  scroll-behavior: smooth;
+  background-color: #f7f1e5;
+}
+
+/* Ensure the main container takes full height */
+#__next {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 /* Remove arrows in Chrome, Safari, Edge, and Opera */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
