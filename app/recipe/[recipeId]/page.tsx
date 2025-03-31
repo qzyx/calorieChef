@@ -1,5 +1,4 @@
 import Filter from "@/app/_components/Filter";
-import FoundMeals from "@/app/_components/FoundMeals";
 import RecipeInfo from "@/app/_components/RecipeInfo";
 import { Suspense } from "react";
 

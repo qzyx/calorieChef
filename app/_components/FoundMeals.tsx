@@ -1,9 +1,9 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
-import { complexSearch } from "../_lib/spoonacularApi";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { complexSearch } from "../_lib/spoonacularApi";
 
 export default function FoundMeals() {
   const searchParams = useSearchParams();
@@ -59,7 +59,7 @@ export default function FoundMeals() {
             API Usage Limit Reached
           </div>
           <p className="text-center text-gray-600 max-w-md">
-            We've reached our daily limit for recipe searches. Please try again
+            We&apos;ve reached our daily limit for recipe searches. Please try again
             later or search for a different recipe.
           </p>
         </div>
