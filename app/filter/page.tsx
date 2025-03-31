@@ -4,10 +4,8 @@ import FoundMeals from "../_components/FoundMeals";
 
 export default function page() {
   return (
-    <main className="py-4  px-2 sm:px-3 md:px-4 flex  items-center  justify-center ">
-      <div className="self-center">
-        <Filter></Filter>
-      </div>
+    <main className="py-4  px-2  sm:px-3 md:px-4 flex items-start  justify-center ">
+      <Filter></Filter>
 
       <Suspense fallback={<div>Loading...</div>}>
         <FoundMeals></FoundMeals>

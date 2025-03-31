@@ -174,7 +174,7 @@ export default function Filter() {
   }, [ingeredient]);
 
   return (
-    <div className="max-w-120 flex select-none flex-col rounded-md bg-primary border-secondary border p-3 lg:flex-1 lg:mx-5">
+    <div className="max-w-120 flex select-none  flex-col rounded-md bg-primary border-secondary border p-3 lg:flex-1 lg:mx-5">
       <span className="font-joti select-none text-3xl text-center mb-5 text-background">
         Filter
       </span>
