@@ -7,10 +7,12 @@ import { useEffect, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { getRecipeInfo } from "../_lib/spoonacularApi";
 import { LoadingSpinner } from "./LoadingSpinner";
+import ApiOverdose from "./ApiOverdose";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function RecipeInfo() {
+  const { recipeId } = useParams();
   const router = useRouter();
   type Nutrient = {
     name: string;
@@ -24,12 +26,12 @@ export default function RecipeInfo() {
     readyInMinutes: number;
     servings: number;
     summary: string;
+    status: string;
     nutrition: {
       nutrients: Nutrient[];
     };
   };
 
-  const { recipeId } = useParams();
   const [recipeInfo, setRecipeInfo] = useState<RecipeInfoType | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -76,22 +78,25 @@ export default function RecipeInfo() {
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
-      const data = await getRecipeInfo(recipeId);
-      setRecipeInfo(data);
+      try {
+        const data = await getRecipeInfo(recipeId);
+        setRecipeInfo(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setRecipeInfo(null);
+      }
       setLoading(false);
     }
     fetchData();
   }, [recipeId]);
-
-  console.log(recipeInfo);
-
+  console.log("Data", recipeInfo);
   return (
     <div className="flex-1 relative overflow-scroll flex flex-col shadow-md rounded-md px-4 py-4 bg-white select-none ">
       {loading ? (
         <div className="flex justify-center items-center h-full w-full">
           <LoadingSpinner size="md" />
         </div>
-      ) : (
+      ) : recipeInfo?.status !== "failure" ? (
         <>
           <div className="grid  grid-cols-1 h-full w-full grid-rows-4 md:grid-cols-2 md:grid-rows-2 gap-2">
             <div className="col-span-1 row-span-1 bg-gray-100 rounded-lg overflow-hidden h-64 md:h-70">
@@ -201,6 +206,8 @@ export default function RecipeInfo() {
             <ArrowLeft></ArrowLeft>
           </button>
         </>
+      ) : (
+        <ApiOverdose></ApiOverdose>
       )}
     </div>
   );

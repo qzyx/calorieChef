@@ -47,38 +47,9 @@ function InputBox({
 
 export default function Filter() {
   const router = useRouter();
-
+  const [suggestions, setSuggestions] = useState<Ingredient[]>([]);
   const [ingeredient, setIngeredient] = useState("");
   const [mealName, setMealName] = useState("");
-
-  useEffect(() => {
-    const searchParams = new URLSearchParams(window.location.search);
-
-    if (searchParams.has("mealName"))
-      setMealName(searchParams.get("mealName") || "");
-    if (searchParams.has("minCalories"))
-      setMinCalories(Number(searchParams.get("minCalories")));
-    if (searchParams.has("maxCalories"))
-      setMaxCalories(Number(searchParams.get("maxCalories")));
-    if (searchParams.has("minProtein"))
-      setMinProtein(Number(searchParams.get("minProtein")));
-    if (searchParams.has("maxProtein"))
-      setMaxProtein(Number(searchParams.get("maxProtein")));
-    if (searchParams.has("minCarbs"))
-      setMinCarbs(Number(searchParams.get("minCarbs")));
-    if (searchParams.has("maxCarbs"))
-      setMaxCarbs(Number(searchParams.get("maxCarbs")));
-    if (searchParams.has("minFats"))
-      setMinFats(Number(searchParams.get("minFats")));
-    if (searchParams.has("maxFats"))
-      setMaxFats(Number(searchParams.get("maxFats")));
-    if (searchParams.has("ingredients")) {
-      const ingredientsParam = searchParams.get("ingredients");
-      if (ingredientsParam) {
-        setIngredients(ingredientsParam.split(","));
-      }
-    }
-  }, []);
   const [minCalories, setMinCalories] = useState(0);
   const [maxCalories, setMaxCalories] = useState(0);
   const [minProtein, setMinProtein] = useState(0);
@@ -89,9 +60,15 @@ export default function Filter() {
   const [maxFats, setMaxFats] = useState(0);
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [filterError, setFilterError] = useState("");
+
+  interface Ingredient {
+    name: string;
+    image: string;
+    // Add other properties as needed
+  }
+
   async function applyFilter() {
     const params = new URLSearchParams();
-
     if (mealName) params.append("mealName", mealName);
     if (minCalories !== 0) params.append("minCalories", minCalories.toString());
     if (maxCalories !== 0) params.append("maxCalories", maxCalories.toString());
@@ -145,12 +122,35 @@ export default function Filter() {
   const hanleMaxFats = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMaxFats(Number(e.target.value));
   };
-  interface Ingredient {
-    name: string;
-    image: string;
-    // Add other properties as needed
-  }
-  const [suggestions, setSuggestions] = useState<Ingredient[]>([]);
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.has("mealName"))
+      setMealName(searchParams.get("mealName") || "");
+    if (searchParams.has("minCalories"))
+      setMinCalories(Number(searchParams.get("minCalories")));
+    if (searchParams.has("maxCalories"))
+      setMaxCalories(Number(searchParams.get("maxCalories")));
+    if (searchParams.has("minProtein"))
+      setMinProtein(Number(searchParams.get("minProtein")));
+    if (searchParams.has("maxProtein"))
+      setMaxProtein(Number(searchParams.get("maxProtein")));
+    if (searchParams.has("minCarbs"))
+      setMinCarbs(Number(searchParams.get("minCarbs")));
+    if (searchParams.has("maxCarbs"))
+      setMaxCarbs(Number(searchParams.get("maxCarbs")));
+    if (searchParams.has("minFats"))
+      setMinFats(Number(searchParams.get("minFats")));
+    if (searchParams.has("maxFats"))
+      setMaxFats(Number(searchParams.get("maxFats")));
+    if (searchParams.has("ingredients")) {
+      const ingredientsParam = searchParams.get("ingredients");
+      if (ingredientsParam) {
+        setIngredients(ingredientsParam.split(","));
+      }
+    }
+  }, []);
+
   useEffect(() => {
     if (ingeredient.length === 0) {
       setSuggestions([]);
@@ -174,7 +174,7 @@ export default function Filter() {
   }, [ingeredient]);
 
   return (
-    <div className="max-w-120 flex select-none  flex-col self-start rounded-md bg-primary border-secondary border p-3 lg:flex-1 lg:mx-5">
+    <div className="max-w-120 flex select-none  flex-col self-start rounded-md bg-primary border-secondary shadow-lg border p-3 lg:flex-1 lg:mx-5">
       <span className="font-joti select-none text-3xl text-center mb-5 text-background">
         Filter
       </span>

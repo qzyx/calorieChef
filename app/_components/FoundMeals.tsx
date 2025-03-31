@@ -4,21 +4,13 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { complexSearch } from "../_lib/spoonacularApi";
+import { LoadingSpinner } from "./LoadingSpinner";
+import ApiOverdose from "./ApiOverdose";
 
 export default function FoundMeals() {
   const searchParams = useSearchParams();
   const [recipes, setRecipes] = useState([]);
-  useEffect(() => {
-    async function fetchData() {
-      const data = await complexSearch(searchParams.toString());
-      console.log("Data from API:", data);
-      setRecipes(data.results);
-      return data;
-    }
-    fetchData();
-  }, [searchParams]);
-  console.log("recipes:", recipes);
-
+  const [loading, setLoading] = useState(true);
   interface Recipe {
     id: number;
     title: string;
@@ -26,8 +18,24 @@ export default function FoundMeals() {
     imageType: string;
   }
 
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      try {
+        const data = await complexSearch(searchParams.toString());
+        setRecipes(data.results);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setRecipes([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, [searchParams]);
+
   return (
-    <div className="flex-1 flex ml-3 overflow-hidden flex-col lg:block shadow-md ring-1 ring-secondary rounded-md p-6  bg-white select-none ">
+    <div className="flex-1 flex ml-3 overflow-hidden flex-col lg:block shadow-md  rounded-md p-6  bg-white select-none ">
       {recipes ? (
         <div className="flex gap-2 p-2 flex-wrap overflow-y-auto h-[calc(100vh-200px)]">
           {recipes?.map((recipe: Recipe, idx) => (
@@ -53,16 +61,10 @@ export default function FoundMeals() {
             </Link>
           ))}
         </div>
+      ) : !loading ? (
+        <ApiOverdose></ApiOverdose>
       ) : (
-        <div className="flex flex-col items-center justify-center h-[calc(100vh-200px)] p-4">
-          <div className="text-red-500 text-xl font-semibold mb-2">
-            API Usage Limit Reached
-          </div>
-          <p className="text-center text-gray-600 max-w-md">
-            We&apos;ve reached our daily limit for recipe searches. Please try
-            again later or search for a different recipe.
-          </p>
-        </div>
+        <LoadingSpinner size="md"></LoadingSpinner>
       )}
     </div>
   );
