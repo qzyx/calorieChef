@@ -59,8 +59,8 @@ export default function FoundMeals() {
             API Usage Limit Reached
           </div>
           <p className="text-center text-gray-600 max-w-md">
-            We&apos;ve reached our daily limit for recipe searches. Please try again
-            later or search for a different recipe.
+            We&apos;ve reached our daily limit for recipe searches. Please try
+            again later or search for a different recipe.
           </p>
         </div>
       )}

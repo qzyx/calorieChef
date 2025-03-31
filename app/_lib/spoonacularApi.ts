@@ -1,4 +1,6 @@
-const apiKey: string = "66c11734a0cc4722bbb665a760b1d167";
+import { ParamValue } from "next/dist/server/request/params";
+
+const apiKey: string = "225797f3718042cca8ed0aa12fd8132a";
 
 export async function getIngredientsAutoComplete(query: string) {
   const data = await fetch(
@@ -22,5 +24,11 @@ export async function complexSearch(passedParams: string) {
   const data = await fetch(`${url}?${params}&${passedParams}`).then((res) =>
     res.json()
   );
+  return data;
+}
+export async function getRecipeNutrition(recipeId: ParamValue) {
+  const data = await fetch(
+    `https://api.spoonacular.com/recipes/${recipeId}/nutritionWidget.json?apiKey=${apiKey}`
+  ).then((res) => res.json());
   return data;
 }
