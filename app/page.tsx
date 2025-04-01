@@ -20,8 +20,13 @@ export default function Home() {
       </span>
       <span className="flex md:hidden flex-col gap-5">
         <Filter></Filter>
-        <div className="grow flex-1">
-          <Introduction></Introduction>
+        <div className="grow flex flex-col  gap-5">
+          <span className="flex-1">
+            <FastSearch></FastSearch>
+          </span>
+          <span className="flex-1">
+            <Introduction></Introduction>
+          </span>
         </div>
       </span>
     </main>
