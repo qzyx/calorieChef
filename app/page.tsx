@@ -1,3 +1,4 @@
+import FastSearch from "./_components/FastSearch";
 import Filter from "./_components/Filter";
 import Introduction from "./_components/Intoduction";
 
@@ -8,8 +9,13 @@ export default function Home() {
         <span className="">
           <Filter></Filter>
         </span>
-        <div className="grow ">
-          <Introduction></Introduction>
+        <div className="grow flex flex-col  gap-2">
+          <span className="flex-1">
+            <Introduction></Introduction>
+          </span>
+          <span className="flex-1">
+            <FastSearch></FastSearch>
+          </span>
         </div>
       </span>
       <span className="flex md:hidden flex-col gap-5">
