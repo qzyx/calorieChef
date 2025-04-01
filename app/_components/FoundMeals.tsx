@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { complexSearch } from "../_lib/spoonacularApi";
 import { LoadingSpinner } from "./LoadingSpinner";
 import ApiOverdose from "./ApiOverdose";
+import NoRecipesFound from "./NoRecipesFound";
+import { PageLoadingSpinner } from "./PageLoadingSpinner";
 
 export default function FoundMeals() {
   const searchParams = useSearchParams();
@@ -22,21 +24,26 @@ export default function FoundMeals() {
     async function fetchData() {
       setLoading(true);
       try {
+        console.log("fetching data");
         const data = await complexSearch(searchParams.toString());
         setRecipes(data.results);
       } catch (error) {
         console.error("Error fetching data:", error);
         setRecipes([]);
       } finally {
+        console.log("fetching data done");
         setLoading(false);
       }
     }
     fetchData();
   }, [searchParams]);
-
+  console.log(recipes);
+  if (!recipes) {
+    return <ApiOverdose></ApiOverdose>;
+  }
   return (
-    <div className="flex-1 flex ml-3 overflow-hidden flex-col lg:block shadow-md  rounded-md p-6  bg-white select-none ">
-      {recipes ? (
+    <div className="flex-1 flex  overflow-hidden flex-col lg:block shadow-md  rounded-md p-2 md:p-4 lg:p-6  bg-white select-none ">
+      {recipes?.length > 0 ? (
         <div className="flex gap-2 p-2 flex-wrap overflow-y-auto h-[calc(100vh-200px)]">
           {recipes?.map((recipe: Recipe, idx) => (
             <Link
@@ -62,9 +69,9 @@ export default function FoundMeals() {
           ))}
         </div>
       ) : !loading ? (
-        <ApiOverdose></ApiOverdose>
+        <NoRecipesFound></NoRecipesFound>
       ) : (
-        <LoadingSpinner size="md"></LoadingSpinner>
+        <PageLoadingSpinner size="md"></PageLoadingSpinner>
       )}
     </div>
   );

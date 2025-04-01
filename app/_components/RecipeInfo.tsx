@@ -8,6 +8,7 @@ import { Doughnut } from "react-chartjs-2";
 import { getRecipeInfo } from "../_lib/spoonacularApi";
 import { LoadingSpinner } from "./LoadingSpinner";
 import ApiOverdose from "./ApiOverdose";
+import { PageLoadingSpinner } from "./PageLoadingSpinner";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -27,6 +28,7 @@ export default function RecipeInfo() {
     servings: number;
     summary: string;
     status: string;
+    instructions: string;
     nutrition: {
       nutrients: Nutrient[];
     };
@@ -91,10 +93,10 @@ export default function RecipeInfo() {
   }, [recipeId]);
   console.log("Data", recipeInfo);
   return (
-    <div className="flex-1 relative overflow-scroll flex flex-col shadow-md rounded-md px-4 py-4 bg-white select-none ">
+    <div className="flex-1 relative overflow-scroll flex flex-col shadow-md rounded-md p-2 md:p-4 lg:p-6 bg-white select-none ">
       {loading ? (
         <div className="flex justify-center items-center h-full w-full">
-          <LoadingSpinner size="md" />
+          <PageLoadingSpinner size="md" />
         </div>
       ) : recipeInfo?.status !== "failure" ? (
         <>
@@ -154,10 +156,10 @@ export default function RecipeInfo() {
                 <Users className="h-4 w-4 text-gray-500" />
                 <span>{recipeInfo?.servings} servings</span>
               </div>
-              {recipeInfo?.summary && (
+              {recipeInfo?.instructions && (
                 <div
                   className="text-sm text-gray-700 overflow-auto max-h-40"
-                  dangerouslySetInnerHTML={{ __html: recipeInfo.summary }}
+                  dangerouslySetInnerHTML={{ __html: recipeInfo.instructions }}
                 />
               )}
             </div>

@@ -5,7 +5,9 @@ import FoundMeals from "../_components/FoundMeals";
 export default function page() {
   return (
     <main className="py-4  px-2  sm:px-3 md:px-4 flex items-start  justify-center ">
-      <Filter></Filter>
+      <span className="hidden lg:block">
+        <Filter></Filter>
+      </span>
 
       <Suspense fallback={<div>Loading...</div>}>
         <FoundMeals></FoundMeals>
