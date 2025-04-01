@@ -1,6 +1,6 @@
-export function LoadingSpinner({ 
-  size = "md", 
-  color = "primary" 
+export function LoadingSpinner({
+  size = "md",
+  color = "background",
 }: {
   size?: "sm" | "md" | "lg";
   color?: string;
@@ -12,15 +12,16 @@ export function LoadingSpinner({
   };
 
   // Map color to Tailwind class - Tailwind doesn't support fully dynamic classes
-  const borderColorClass = {
-    primary: "border-primary",
-    secondary: "border-secondary",
-    accent: "border-accent",
-    info: "border-info",
-    success: "border-success",
-    warning: "border-warning",
-    error: "border-error",
-  }[color] || "border-primary";
+  const borderColorClass =
+    {
+      primary: "border-primary",
+      secondary: "border-secondary",
+      accent: "border-accent",
+      info: "border-info",
+      success: "border-success",
+      warning: "border-warning",
+      error: "border-error",
+    }[color] || "border-primary";
 
   return (
     <div className="flex justify-center items-center h-full">

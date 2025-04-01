@@ -1,6 +1,6 @@
 export function PageLoadingSpinner({
   size = "md",
-  color = "primary",
+  color = "background", // Default to background
 }: {
   size?: "sm" | "md" | "lg";
   color?: string;

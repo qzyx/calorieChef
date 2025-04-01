@@ -39,15 +39,15 @@ export default function FoundMeals() {
   console.log(recipes);
   if (!recipes) {
     return (
-      <div className="flex-1 flex  overflow-hidden flex-col lg:block shadow-md  rounded-md p-2 md:p-4 lg:p-6  bg-white select-none ">
-        <ApiOverdose></ApiOverdose>;
+      <div className="flex-1 flex  overflow-hidden flex-col lg:block shadow-md  rounded-md  bg-primary/60 select-none ">
+        <ApiOverdose></ApiOverdose>
       </div>
     );
   }
   return (
-    <div className="flex-1 flex  overflow-hidden flex-col lg:block shadow-md  rounded-md p-2 md:p-4 lg:p-6  bg-white select-none ">
+    <div className="grow flex  overflow-hidden flex-col lg:block shadow-md  rounded-md   bg-primary/60 select-none ">
       {recipes?.length > 0 ? (
-        <div className="flex gap-2 p-2 flex-wrap overflow-y-auto h-[calc(100vh-200px)]">
+        <div className="flex gap-2 p-2 flex-wrap overflow-y-auto h-full">
           {recipes?.map((recipe: Recipe, idx) => (
             <button
               className="w-[calc(50%-0.5rem)] md:w-[calc(33.333%-0.5rem)] lg:w-[calc(25%-0.5rem)] 

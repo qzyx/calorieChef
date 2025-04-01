@@ -1,6 +1,6 @@
 export default function ApiOverdose() {
   return (
-    <div className="flex flex-col items-center justify-center h-[calc(100vh-200px)] p-4">
+    <div className="flex flex-col items-center justify-center h-full p-4">
       <div className="text-red-500 text-xl font-semibold mb-2">
         API Usage Limit Reached
       </div>

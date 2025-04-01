@@ -92,7 +92,7 @@ export default function RecipeInfo() {
   }, [recipeId]);
   console.log("Data", recipeInfo);
   return (
-    <div className="flex-1 relative overflow-scroll flex flex-col shadow-md rounded-md p-2 md:p-4 lg:p-6 bg-white select-none ">
+    <div className="flex-1 relative overflow-scroll flex flex-col shadow-md rounded-md p-2 md:p-4 lg:p-6 bg-primary/60 select-none ">
       {loading ? (
         <div className="flex justify-center items-center h-full w-full">
           <PageLoadingSpinner size="md" />
@@ -100,7 +100,7 @@ export default function RecipeInfo() {
       ) : recipeInfo?.status !== "failure" ? (
         <>
           <div className="grid  grid-cols-1 h-full w-full grid-rows-4 md:grid-cols-2 md:grid-rows-2 gap-2">
-            <div className="col-span-1 row-span-1 bg-gray-100 rounded-lg overflow-hidden h-64 md:h-70">
+            <div className="col-span-1 row-span-1 bg-primary/60 rounded-lg overflow-hidden h-64 md:h-70">
               {recipeInfo?.image && (
                 <img
                   src={recipeInfo.image}
@@ -109,7 +109,7 @@ export default function RecipeInfo() {
                 />
               )}
             </div>
-            <div className="col-span-1 row-span-1 p-4 bg-gray-100 rounded-lg">
+            <div className="col-span-1 row-span-1 p-4 bg-primary/60 rounded-lg">
               <h3 className="text-lg font-semibold mb-3">Nutrition Facts</h3>
               <div className="flex flex-col space-y-2">
                 {calories && (
@@ -146,7 +146,7 @@ export default function RecipeInfo() {
                 )}
               </div>
             </div>
-            <div className="col-span-1 row-span-1 p-4 bg-gray-100 rounded-lg">
+            <div className="col-span-1 row-span-1 p-4 bg-primary/60 rounded-lg">
               <h3 className="text-lg font-semibold mb-3">Recipe Summary</h3>
               <div className="flex items-center space-x-2 mb-3">
                 <Clock className="h-4 w-4 text-gray-500" />
@@ -162,7 +162,7 @@ export default function RecipeInfo() {
                 />
               )}
             </div>
-            <div className="col-span-1 row-span-1 p-4 bg-gray-100 rounded-lg flex flex-col">
+            <div className="col-span-1 row-span-1 p-4 bg-primary/60 rounded-lg flex flex-col">
               <h3 className="text-lg font-semibold mb-3">
                 Nutrition Breakdown
               </h3>

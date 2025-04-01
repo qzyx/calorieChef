@@ -1,13 +1,10 @@
 @import "tailwindcss";
 
-body {
-  background-color: #f7f1e5;
-}
 @theme {
-  --color-background: #f7f1e5;
-  --color-primary: #e7b10a;
-  --color-secondary: #898121;
-  --color-tertiary: #4c4b16;
+  --color-background: #1a120b;
+  --color-primary: #d5cea3;
+  --color-secondary: #e5e5cb;
+  --color-tertiary: #3c2a21;
 
   --font-inknut: "Inknut Antiqua", serif;
   --font-joti: "Joti One", serif;
@@ -39,7 +36,7 @@ body {
 /* Add a default scroll behavior */
 body {
   scroll-behavior: smooth;
-  background-color: #f7f1e5;
+  background-color: #1a120b;
 }
 
 /* Ensure the main container takes full height */
