@@ -173,8 +173,8 @@ export default function Filter() {
   }, [ingeredient]);
 
   return (
-    <div className="max-w-110 h-full flex select-none flex-col rounded-md  shadow-lg bg-primary  p-3 lg:flex-1 ">
-      <span className="font-joti select-none text-3xl text-center mb-5 text-background">
+    <div className=" h-full flex select-none flex-col rounded-md  shadow-lg bg-primary text-sm md:text-base p-1 md:p-3 pb-3 lg:flex-1 ">
+      <span className="font-joti select-none text-3xl text-center mb-5 text-background ">
         Filter
       </span>
 

@@ -1,6 +1,6 @@
 export default function Introduction() {
   return (
-    <div className="flex-1 select-none hidden lg:flex flex-col justify-center items-center text-primary  rounded-lg  ">
+    <div className=" select-none flex flex-col justify-center items-center text-primary  rounded-lg  ">
       <h1 className="text-3xl text-center font-inknut mb-4">
         Recipe & Meal Finder
       </h1>

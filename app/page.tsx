@@ -3,11 +3,20 @@ import Introduction from "./_components/Intoduction";
 
 export default function Home() {
   return (
-    <main className=" mb-10 grow px-2 sm:px-3 md:px-4 flex justify-center ">
-      <span className="flex justify-center w-full">
-        <Introduction></Introduction>
+    <main className="  overflow-auto  grow  flex  md:mb-10 m-2 md:mx-4  justify-center ">
+      <span className=" hidden md:flex  justify-center w-full p-2">
+        <span className="">
+          <Filter></Filter>
+        </span>
+        <div className="grow ">
+          <Introduction></Introduction>
+        </div>
+      </span>
+      <span className="flex md:hidden flex-col gap-5">
         <Filter></Filter>
-        <div className="flex-1 hidden lg:block"></div>
+        <div className="grow flex-1">
+          <Introduction></Introduction>
+        </div>
       </span>
     </main>
   );
