@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { complexSearch } from "../_lib/spoonacularApi";
-import { LoadingSpinner } from "./LoadingSpinner";
 import ApiOverdose from "./ApiOverdose";
 import NoRecipesFound from "./NoRecipesFound";
 import { PageLoadingSpinner } from "./PageLoadingSpinner";

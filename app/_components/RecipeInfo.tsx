@@ -6,7 +6,6 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { getRecipeInfo } from "../_lib/spoonacularApi";
-import { LoadingSpinner } from "./LoadingSpinner";
 import ApiOverdose from "./ApiOverdose";
 import { PageLoadingSpinner } from "./PageLoadingSpinner";
 

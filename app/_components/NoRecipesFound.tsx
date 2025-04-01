@@ -5,7 +5,7 @@ export default function NoRecipesFound() {
           No Recipes Found
         </div>
         <p className="text-center text-gray-600 max-w-md">
-        We couldn't find any recipes matching your criteria. Try adjusting your search terms or filters to see more results.
+        We couldn&apos;t find any recipes matching your criteria. Try adjusting your search terms or filters to see more results.
         </p>
       </div>
     );
