@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { complexSearch } from "../_lib/spoonacularApi";
 import ApiOverdose from "./ApiOverdose";
@@ -9,6 +9,7 @@ import NoRecipesFound from "./NoRecipesFound";
 import { PageLoadingSpinner } from "./PageLoadingSpinner";
 
 export default function FoundMeals() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -38,18 +39,22 @@ export default function FoundMeals() {
   }, [searchParams]);
   console.log(recipes);
   if (!recipes) {
-    return <ApiOverdose></ApiOverdose>;
+    return (
+      <div className="flex-1 flex  overflow-hidden flex-col lg:block shadow-md  rounded-md p-2 md:p-4 lg:p-6  bg-white select-none ">
+        <ApiOverdose></ApiOverdose>;
+      </div>
+    );
   }
   return (
     <div className="flex-1 flex  overflow-hidden flex-col lg:block shadow-md  rounded-md p-2 md:p-4 lg:p-6  bg-white select-none ">
       {recipes?.length > 0 ? (
         <div className="flex gap-2 p-2 flex-wrap overflow-y-auto h-[calc(100vh-200px)]">
           {recipes?.map((recipe: Recipe, idx) => (
-            <Link
+            <button
               className="w-[calc(50%-0.5rem)] md:w-[calc(33.333%-0.5rem)] lg:w-[calc(25%-0.5rem)] 
             p-4 bg-primary/20 hover:bg-primary transition-colors duration-300
             rounded-md shadow flex flex-col items-center mb-3"
-              href={`/recipe/${recipe.id}`}
+              onClick={() => router.push(`recipe/${recipe.id}`)}
               key={recipe.id || idx}
             >
               <div className="">
@@ -64,7 +69,7 @@ export default function FoundMeals() {
                   {recipe.title}
                 </h3>
               </div>
-            </Link>
+            </button>
           ))}
         </div>
       ) : !loading ? (

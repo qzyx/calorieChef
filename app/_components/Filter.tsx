@@ -69,7 +69,7 @@ export default function Filter() {
 
   async function applyFilter() {
     const params = new URLSearchParams();
-    if (mealName) params.append("mealName", mealName);
+    if (mealName) params.append("query", mealName);
     if (minCalories !== 0) params.append("minCalories", minCalories.toString());
     if (maxCalories !== 0) params.append("maxCalories", maxCalories.toString());
     if (minProtein !== 0) params.append("minProtein", minProtein.toString());
@@ -125,8 +125,7 @@ export default function Filter() {
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
-    if (searchParams.has("mealName"))
-      setMealName(searchParams.get("mealName") || "");
+    if (searchParams.has("query")) setMealName(searchParams.get("query") || "");
     if (searchParams.has("minCalories"))
       setMinCalories(Number(searchParams.get("minCalories")));
     if (searchParams.has("maxCalories"))
@@ -178,6 +177,7 @@ export default function Filter() {
       <span className="font-joti select-none text-3xl text-center mb-5 text-background">
         Filter
       </span>
+
       <div className="flex flex-col gap-3">
         <div className="flex gap-1 flex-col">
           <label className="font-joti text-tertiary">

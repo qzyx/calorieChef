@@ -8,7 +8,7 @@ export default function page() {
 
       <Filter></Filter>
       </span>
-
+      
       <RecipeInfo></RecipeInfo>
     </main>
   );

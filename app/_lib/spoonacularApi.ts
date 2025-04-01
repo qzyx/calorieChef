@@ -4,7 +4,7 @@ const keys = [
   "262a30a5fdce442f980a6735235abd66",
   "0a54033f2b554d0ca951f2ec1e97b639",
 ];
-const apiKey: string = keys[0];
+const apiKey: string = keys[1];
 
 export async function getIngredientsAutoComplete(query: string) {
   const data = await fetch(
