@@ -47,12 +47,12 @@ export default function FoundMeals() {
   return (
     <div className="grow flex  overflow-hidden flex-col lg:block shadow-md  rounded-md   bg-primary/60 select-none ">
       {recipes?.length > 0 ? (
-        <div className="flex gap-2 p-2 flex-wrap overflow-y-auto h-full">
+        <div className="flex gap-2  flex-wrap overflow-y-auto h-full">
           {recipes?.map((recipe: Recipe, idx) => (
             <button
               className="w-[calc(50%-0.5rem)] md:w-[calc(33.333%-0.5rem)] lg:w-[calc(25%-0.5rem)] 
-            p-4 bg-primary/20 hover:bg-primary transition-colors duration-300
-            rounded-md shadow flex flex-col items-center mb-3"
+            p-4 bg-primary/20 hover:bg-secondary transition-colors duration-300
+            rounded-md shadow flex flex-col items-center mb-3 cursor-pointer"
               onClick={() => router.push(`recipe/${recipe.id}`)}
               key={recipe.id || idx}
             >
@@ -74,7 +74,7 @@ export default function FoundMeals() {
       ) : !loading ? (
         <NoRecipesFound></NoRecipesFound>
       ) : (
-        <PageLoadingSpinner size="md"></PageLoadingSpinner>
+        <PageLoadingSpinner color="background" size="md"></PageLoadingSpinner>
       )}
     </div>
   );

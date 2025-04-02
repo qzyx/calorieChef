@@ -92,7 +92,7 @@ export default function RecipeInfo() {
   }, [recipeId]);
   console.log("Data", recipeInfo);
   return (
-    <div className="flex-1 relative overflow-scroll flex flex-col shadow-md rounded-md p-2 md:p-4 lg:p-6 bg-primary/60 select-none ">
+    <div className="grow flex  overflow-hidden flex-col lg:block shadow-md  rounded-md   bg-primary/60 select-none relative ">
       {loading ? (
         <div className="flex justify-center items-center h-full w-full">
           <PageLoadingSpinner size="md" />
@@ -105,7 +105,7 @@ export default function RecipeInfo() {
                 <img
                   src={recipeInfo.image}
                   alt={recipeInfo.title}
-                  className="w-full h-full object-cover"
+                  className="h-full w-full object-cover"
                 />
               )}
             </div>

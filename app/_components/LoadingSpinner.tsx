@@ -14,6 +14,7 @@ export function LoadingSpinner({
   // Map color to Tailwind class - Tailwind doesn't support fully dynamic classes
   const borderColorClass =
     {
+      background: "border-background",
       primary: "border-primary",
       secondary: "border-secondary",
       accent: "border-accent",

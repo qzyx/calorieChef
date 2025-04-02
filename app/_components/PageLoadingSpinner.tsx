@@ -14,6 +14,7 @@ export function PageLoadingSpinner({
   // Map color to Tailwind class - Tailwind doesn't support fully dynamic classes
   const borderColorClass =
     {
+      background: "border-background",
       primary: "border-primary",
       secondary: "border-secondary",
       accent: "border-accent",
@@ -24,7 +25,7 @@ export function PageLoadingSpinner({
     }[color] || "border-primary";
 
   return (
-    <div className="flex flex-col items-center justify-center h-[calc(100vh-200px)] p-4">
+    <div className="flex grow flex-col items-center justify-center h-[calc(100vh-200px)] ">
       <div className="flex justify-center items-center h-full">
         <div
           className={`${sizes[size]} animate-spin rounded-full border-b-2 ${borderColorClass}`}
