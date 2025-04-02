@@ -4,7 +4,7 @@ import { Suspense } from "react";
 
 export default function page() {
   return (
-    <main className="  overflow-auto  grow  flex  mb-10 m-2 md:mx-4  justify-center ">
+    <main className=" overflow-auto  grow  flex  md:mb-10 m-2 md:mx-4  justify-center ">
       <div className="flex bg-secondary grow rounded-md shadow-xl p-2">
         <span className="hidden lg:block">
           <Filter></Filter>

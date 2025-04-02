@@ -10,7 +10,7 @@ export default function RecipeInfoSummary({
   };
 }) {
   return (
-    <div className="col-span-1 row-span-1 p-4 bg-primary/60 rounded-lg">
+    <div className="col-span-1 row-span-1 p-4 bg-primary/60 rounded-lg overflow-clip">
       <h3 className="text-lg font-semibold mb-3">Recipe Summary</h3>
       <div className="flex items-center space-x-2 mb-3">
         <Clock className="h-4 w-4 text-gray-500" />

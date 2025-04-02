@@ -1,19 +1,19 @@
 "use client";
 
-import { ArrowLeft } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getRecipeInfo } from "../../_lib/spoonacularApi";
 import ApiOverdose from "../ApiOverdose";
+import BackButton from "../UI/BackButton";
+import { PageLoadingSpinner } from "../UI/PageLoadingSpinner";
+import RecipeInfoChart from "./RecipeInfoChart";
 import RecipeInfoImage from "./RecipeInfoImage";
 import RecipeInfoNutrients from "./RecipeInfoNutrients";
 import RecipeInfoSummary from "./RecipeInfoSummary";
-import { PageLoadingSpinner } from "../UI/PageLoadingSpinner";
-import RecipeInfoChart from "./RecipeInfoChart";
 
 export default function RecipeInfo() {
   const { recipeId } = useParams();
-  const router = useRouter();
+
   type Nutrient = {
     name: string;
     amount: number;
@@ -107,37 +107,33 @@ export default function RecipeInfo() {
     ...defaultNutrient,
     name: "Carbohydrates",
   };
-
-  return (
-    <div className="grow flex  overflow-hidden flex-col lg:block shadow-md  rounded-md   bg-primary/60 select-none relative ">
-      {loading ? (
-        <div className="flex justify-center items-center h-full w-full">
-          <PageLoadingSpinner size="md" />
-        </div>
-      ) : recipeInfo?.status !== "failure" ? (
-        <>
-          <div className="grid  grid-cols-1 h-full w-full grid-rows-4 md:grid-cols-2 md:grid-rows-2 gap-2">
-            <RecipeInfoImage recipeInfo={recipeInfo} />
-            <RecipeInfoNutrients
-              protein={proteinData}
-              fat={fatData}
-              calories={caloriesData}
-              carbohydrates={carbohydratesData}
-            />
-            <RecipeInfoSummary recipeInfo={recipeInfo}></RecipeInfoSummary>
-            <RecipeInfoChart nutritionData={nutritionData} />
-          </div>
-
-          <button
-            onClick={() => router.back()}
-            className="absolute top-5 z-10 left-5 p-2 text-background cursor-pointer hover:scale-110 transition-all duration-150 rounded-full bg-primary"
-          >
-            <ArrowLeft></ArrowLeft>
-          </button>
-        </>
-      ) : (
-        <ApiOverdose></ApiOverdose>
-      )}
-    </div>
-  );
+  if (loading) {
+    return (
+      <div className="grow flex  overflow-auto flex-col lg:block shadow-md  rounded-md   bg-primary/60 select-none relative ">
+        <PageLoadingSpinner size="md" />
+      </div>
+    );
+  } else
+    return (
+      <div className="grow flex  overflow-auto flex-col lg:block shadow-md  rounded-md   bg-primary/60 select-none relative ">
+        <BackButton top={3} left={3}></BackButton>
+        {recipeInfo?.status !== "failure" ? (
+          <>
+            <div className="grid  grid-cols-1 h-full w-full grid-rows-4 md:grid-cols-2 md:grid-rows-2 gap-2">
+              <RecipeInfoImage recipeInfo={recipeInfo} />
+              <RecipeInfoNutrients
+                protein={proteinData}
+                fat={fatData}
+                calories={caloriesData}
+                carbohydrates={carbohydratesData}
+              />
+              <RecipeInfoSummary recipeInfo={recipeInfo}></RecipeInfoSummary>
+              <RecipeInfoChart nutritionData={nutritionData} />
+            </div>
+          </>
+        ) : (
+          <ApiOverdose></ApiOverdose>
+        )}
+      </div>
+    );
 }
