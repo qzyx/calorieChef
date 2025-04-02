@@ -1,17 +1,15 @@
 "use client";
 
-import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
-import { ArrowLeft, Clock, Dot, Users } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Doughnut } from "react-chartjs-2";
-import { getRecipeInfo } from "../_lib/spoonacularApi";
-import ApiOverdose from "./ApiOverdose";
-import { PageLoadingSpinner } from "./UI/PageLoadingSpinner";
+import { getRecipeInfo } from "../../_lib/spoonacularApi";
+import ApiOverdose from "../ApiOverdose";
 import RecipeInfoImage from "./RecipeInfoImage";
 import RecipeInfoNutrients from "./RecipeInfoNutrients";
-
-ChartJS.register(ArcElement, Tooltip, Legend);
+import RecipeInfoSummary from "./RecipeInfoSummary";
+import { PageLoadingSpinner } from "../UI/PageLoadingSpinner";
+import RecipeInfoChart from "./RecipeInfoChart";
 
 export default function RecipeInfo() {
   const { recipeId } = useParams();
@@ -95,14 +93,21 @@ export default function RecipeInfo() {
   if (!recipeInfo) {
     return;
   }
-  
+
   // Create default nutrient objects to ensure we always pass valid data
-  const defaultNutrient = { name: '', amount: 0, unit: 'g' };
-  const caloriesData = calories || { ...defaultNutrient, name: 'Calories', unit: 'kcal' };
-  const fatData = fat || { ...defaultNutrient, name: 'Fat' };
-  const proteinData = protein || { ...defaultNutrient, name: 'Protein' };
-  const carbohydratesData = carbohydrates || { ...defaultNutrient, name: 'Carbohydrates' };
-  
+  const defaultNutrient = { name: "", amount: 0, unit: "g" };
+  const caloriesData = calories || {
+    ...defaultNutrient,
+    name: "Calories",
+    unit: "kcal",
+  };
+  const fatData = fat || { ...defaultNutrient, name: "Fat" };
+  const proteinData = protein || { ...defaultNutrient, name: "Protein" };
+  const carbohydratesData = carbohydrates || {
+    ...defaultNutrient,
+    name: "Carbohydrates",
+  };
+
   return (
     <div className="grow flex  overflow-hidden flex-col lg:block shadow-md  rounded-md   bg-primary/60 select-none relative ">
       {loading ? (
@@ -113,59 +118,14 @@ export default function RecipeInfo() {
         <>
           <div className="grid  grid-cols-1 h-full w-full grid-rows-4 md:grid-cols-2 md:grid-rows-2 gap-2">
             <RecipeInfoImage recipeInfo={recipeInfo} />
-            <RecipeInfoNutrients protein={proteinData} fat={fatData} calories={caloriesData} carbohydrates={carbohydratesData} />
-            <div className="col-span-1 row-span-1 p-4 bg-primary/60 rounded-lg">
-              <h3 className="text-lg font-semibold mb-3">Recipe Summary</h3>
-              <div className="flex items-center space-x-2 mb-3">
-                <Clock className="h-4 w-4 text-gray-500" />
-                <span>{recipeInfo?.readyInMinutes} minutes</span>
-                <Dot className="text-gray-500" />
-                <Users className="h-4 w-4 text-gray-500" />
-                <span>{recipeInfo?.servings} servings</span>
-              </div>
-              {recipeInfo?.instructions && (
-                <div
-                  className="text-sm text-gray-700 overflow-auto max-h-40"
-                  dangerouslySetInnerHTML={{ __html: recipeInfo.instructions }}
-                />
-              )}
-            </div>
-            <div className="col-span-1 row-span-1 p-4 bg-primary/60 rounded-lg flex flex-col">
-              <h3 className="text-lg font-semibold mb-3">
-                Nutrition Breakdown
-              </h3>
-              <div className="flex-1 flex items-center justify-center">
-                {recipeInfo && (
-                  <div className="h-56 w-56">
-                    <Doughnut
-                      data={nutritionData}
-                      options={{
-                        maintainAspectRatio: false,
-                        plugins: {
-                          legend: {
-                            position: "bottom",
-                            labels: {
-                              boxWidth: 12,
-                              padding: 10,
-                            },
-                          },
-                          tooltip: {
-                            callbacks: {
-                              label: function (context) {
-                                const value = context.raw;
-                                const unit =
-                                  context.label === "Calories" ? "kcal" : "g";
-                                return `${context.label}: ${value} ${unit}`;
-                              },
-                            },
-                          },
-                        },
-                      }}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
+            <RecipeInfoNutrients
+              protein={proteinData}
+              fat={fatData}
+              calories={caloriesData}
+              carbohydrates={carbohydratesData}
+            />
+            <RecipeInfoSummary recipeInfo={recipeInfo}></RecipeInfoSummary>
+            <RecipeInfoChart nutritionData={nutritionData} />
           </div>
 
           <button

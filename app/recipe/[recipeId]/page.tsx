@@ -1,5 +1,5 @@
 import Filter from "@/app/_components/Filter";
-import RecipeInfo from "@/app/_components/RecipeInfo";
+import RecipeInfo from "@/app/_components/recipe-info/RecipeInfo";
 import { Suspense } from "react";
 
 export default function page() {

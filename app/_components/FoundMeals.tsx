@@ -6,6 +6,7 @@ import { complexSearch } from "../_lib/spoonacularApi";
 import ApiOverdose from "./ApiOverdose";
 import NoRecipesFound from "./NoRecipesFound";
 import { PageLoadingSpinner } from "./UI/PageLoadingSpinner";
+import Image from "next/image";
 
 export default function FoundMeals() {
   const router = useRouter();
@@ -23,14 +24,12 @@ export default function FoundMeals() {
     async function fetchData() {
       setLoading(true);
       try {
-        console.log("fetching data");
         const data = await complexSearch(searchParams.toString());
         setRecipes(data.results);
       } catch (error) {
         console.error("Error fetching data:", error);
         setRecipes([]);
       } finally {
-        console.log("fetching data done");
         setLoading(false);
       }
     }
@@ -46,17 +45,20 @@ export default function FoundMeals() {
             <button
               className="w-[calc(50%-0.5rem)] md:w-[calc(33.333%-0.5rem)] lg:w-[calc(25%-0.5rem)] 
             p-4 bg-primary/20 hover:bg-secondary transition-colors duration-300
-            rounded-md shadow flex flex-col items-center mb-3 cursor-pointer"
+            rounded-md shadow flex flex-col items-center mb-3 cursor-pointer "
               onClick={() => router.push(`recipe/${recipe.id}`)}
               key={recipe.id || idx}
             >
-              <div className="">
+              <div className="flex flex-col w-full gap-2 items-center justify-center h-full">
                 {recipe.image && (
-                  <img
-                    src={recipe.image}
-                    alt={recipe.title}
-                    className="w-full h-40 object-cover rounded-md mb-2"
-                  />
+                  <span className="relative w-full h-40">
+                    <Image
+                      fill
+                      className="w-full h-40 object-cover rounded-md mb-2"
+                      src={recipe.image}
+                      alt={recipe.title}
+                    />
+                  </span>
                 )}
                 <h3 className="text-center font-medium text-sm md:text-base">
                   {recipe.title}
