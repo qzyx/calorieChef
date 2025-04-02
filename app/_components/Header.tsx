@@ -19,12 +19,6 @@ export default function Header() {
           >
             About
           </Link>
-          <Link
-            href={"/contact"}
-            className="hover:bg-background/20 px-2 py-1 rounded transition-colors text-xs sm:text-sm md:text-base border border-background/30 flex"
-          >
-            Contact
-          </Link>
         </div>
       </span>
       <button className="cursor-pointer font-joti text-background text-lg">
