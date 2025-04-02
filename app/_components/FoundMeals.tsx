@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { complexSearch } from "../_lib/spoonacularApi";
 import ApiOverdose from "./ApiOverdose";
 import NoRecipesFound from "./NoRecipesFound";
-import { PageLoadingSpinner } from "./PageLoadingSpinner";
+import { PageLoadingSpinner } from "./UI/PageLoadingSpinner";
 
 export default function FoundMeals() {
   const router = useRouter();
@@ -36,16 +36,10 @@ export default function FoundMeals() {
     }
     fetchData();
   }, [searchParams]);
-  console.log(recipes);
-  if (!recipes) {
-    return (
-      <div className="flex-1 flex  overflow-hidden flex-col lg:block shadow-md  rounded-md  bg-primary/60 select-none ">
-        <ApiOverdose></ApiOverdose>
-      </div>
-    );
-  }
+
   return (
     <div className="grow flex  overflow-hidden flex-col lg:block shadow-md  rounded-md   bg-primary/60 select-none ">
+      {!recipes && <ApiOverdose></ApiOverdose>}
       {recipes?.length > 0 ? (
         <div className="flex gap-2  flex-wrap overflow-y-auto h-full">
           {recipes?.map((recipe: Recipe, idx) => (

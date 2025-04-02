@@ -7,7 +7,9 @@ import { useEffect, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { getRecipeInfo } from "../_lib/spoonacularApi";
 import ApiOverdose from "./ApiOverdose";
-import { PageLoadingSpinner } from "./PageLoadingSpinner";
+import { PageLoadingSpinner } from "./UI/PageLoadingSpinner";
+import RecipeInfoImage from "./RecipeInfoImage";
+import RecipeInfoNutrients from "./RecipeInfoNutrients";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -90,7 +92,17 @@ export default function RecipeInfo() {
     }
     fetchData();
   }, [recipeId]);
-  console.log("Data", recipeInfo);
+  if (!recipeInfo) {
+    return;
+  }
+  
+  // Create default nutrient objects to ensure we always pass valid data
+  const defaultNutrient = { name: '', amount: 0, unit: 'g' };
+  const caloriesData = calories || { ...defaultNutrient, name: 'Calories', unit: 'kcal' };
+  const fatData = fat || { ...defaultNutrient, name: 'Fat' };
+  const proteinData = protein || { ...defaultNutrient, name: 'Protein' };
+  const carbohydratesData = carbohydrates || { ...defaultNutrient, name: 'Carbohydrates' };
+  
   return (
     <div className="grow flex  overflow-hidden flex-col lg:block shadow-md  rounded-md   bg-primary/60 select-none relative ">
       {loading ? (
@@ -100,52 +112,8 @@ export default function RecipeInfo() {
       ) : recipeInfo?.status !== "failure" ? (
         <>
           <div className="grid  grid-cols-1 h-full w-full grid-rows-4 md:grid-cols-2 md:grid-rows-2 gap-2">
-            <div className="col-span-1 row-span-1 bg-primary/60 rounded-lg overflow-hidden h-64 md:h-70">
-              {recipeInfo?.image && (
-                <img
-                  src={recipeInfo.image}
-                  alt={recipeInfo.title}
-                  className="h-full w-full object-cover"
-                />
-              )}
-            </div>
-            <div className="col-span-1 row-span-1 p-4 bg-primary/60 rounded-lg">
-              <h3 className="text-lg font-semibold mb-3">Nutrition Facts</h3>
-              <div className="flex flex-col space-y-2">
-                {calories && (
-                  <div className="flex justify-between">
-                    <span>Calories</span>
-                    <span className="font-medium">
-                      {calories.amount} {calories.unit}
-                    </span>
-                  </div>
-                )}
-                {fat && (
-                  <div className="flex justify-between">
-                    <span>Fat</span>
-                    <span className="font-medium">
-                      {fat.amount} {fat.unit}
-                    </span>
-                  </div>
-                )}
-                {protein && (
-                  <div className="flex justify-between">
-                    <span>Protein</span>
-                    <span className="font-medium">
-                      {protein.amount} {protein.unit}
-                    </span>
-                  </div>
-                )}
-                {carbohydrates && (
-                  <div className="flex justify-between">
-                    <span>Carbohydrates</span>
-                    <span className="font-medium">
-                      {carbohydrates.amount} {carbohydrates.unit}
-                    </span>
-                  </div>
-                )}
-              </div>
-            </div>
+            <RecipeInfoImage recipeInfo={recipeInfo} />
+            <RecipeInfoNutrients protein={proteinData} fat={fatData} calories={caloriesData} carbohydrates={carbohydratesData} />
             <div className="col-span-1 row-span-1 p-4 bg-primary/60 rounded-lg">
               <h3 className="text-lg font-semibold mb-3">Recipe Summary</h3>
               <div className="flex items-center space-x-2 mb-3">
