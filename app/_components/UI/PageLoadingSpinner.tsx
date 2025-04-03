@@ -25,12 +25,10 @@ export function PageLoadingSpinner({
     }[color] || "border-primary";
 
   return (
-    <div className="flex grow flex-col items-center justify-center h-[calc(100vh-200px)] ">
-      <div className="flex justify-center items-center h-full">
-        <div
-          className={`${sizes[size]} animate-spin rounded-full border-b-2 ${borderColorClass}`}
-        ></div>
-      </div>
+    <div className="flex justify-center items-center h-full">
+      <div
+        className={`${sizes[size]} animate-spin rounded-full border-b-2 ${borderColorClass}`}
+      ></div>
     </div>
   );
 }

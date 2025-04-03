@@ -1,15 +1,18 @@
 "use client";
 
+import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
+import { Clock, Dot, Users } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Doughnut } from "react-chartjs-2";
 import { getRecipeInfo } from "../../_lib/spoonacularApi";
 import ApiOverdose from "../ApiOverdose";
 import BackButton from "../UI/BackButton";
 import { PageLoadingSpinner } from "../UI/PageLoadingSpinner";
-import RecipeInfoChart from "./RecipeInfoChart";
 import RecipeInfoImage from "./RecipeInfoImage";
 import RecipeInfoNutrients from "./RecipeInfoNutrients";
-import RecipeInfoSummary from "./RecipeInfoSummary";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function RecipeInfo() {
   const { recipeId } = useParams();
@@ -107,33 +110,82 @@ export default function RecipeInfo() {
     ...defaultNutrient,
     name: "Carbohydrates",
   };
-  if (loading) {
-    return (
-      <div className="grow flex  overflow-auto flex-col lg:block shadow-md  rounded-md   bg-primary/60 select-none relative ">
-        <PageLoadingSpinner size="md" />
-      </div>
-    );
-  } else
-    return (
-      <div className="grow flex  overflow-auto flex-col lg:block shadow-md  rounded-md   bg-primary/60 select-none relative ">
-        <BackButton top={3} left={3}></BackButton>
-        {recipeInfo?.status !== "failure" ? (
-          <>
-            <div className="grid  grid-cols-1 h-full w-full grid-rows-4 md:grid-cols-2 md:grid-rows-2 gap-2">
-              <RecipeInfoImage recipeInfo={recipeInfo} />
-              <RecipeInfoNutrients
-                protein={proteinData}
-                fat={fatData}
-                calories={caloriesData}
-                carbohydrates={carbohydratesData}
-              />
-              <RecipeInfoSummary recipeInfo={recipeInfo}></RecipeInfoSummary>
-              <RecipeInfoChart nutritionData={nutritionData} />
+
+  return (
+    <div className="grow flex  overflow-hidden flex-col lg:block shadow-md  rounded-md   bg-primary/60 select-none relative ">
+      {loading ? (
+        <div className="flex justify-center items-center h-full w-full">
+          <PageLoadingSpinner size="md" />
+        </div>
+      ) : recipeInfo?.status !== "failure" ? (
+        <>
+          <div className="grid  grid-cols-1 h-full w-full grid-rows-4 md:grid-cols-2 md:grid-rows-2 gap-2">
+            <RecipeInfoImage recipeInfo={recipeInfo} />
+            <RecipeInfoNutrients
+              protein={proteinData}
+              fat={fatData}
+              calories={caloriesData}
+              carbohydrates={carbohydratesData}
+            />
+            <div className="col-span-1 row-span-1 p-4 bg-primary/60 rounded-lg">
+              <h3 className="text-lg font-semibold mb-3">Recipe Summary</h3>
+              <div className="flex items-center space-x-2 mb-3">
+                <Clock className="h-4 w-4 text-gray-500" />
+                <span>{recipeInfo?.readyInMinutes} minutes</span>
+                <Dot className="text-gray-500" />
+                <Users className="h-4 w-4 text-gray-500" />
+                <span>{recipeInfo?.servings} servings</span>
+              </div>
+              {recipeInfo?.instructions && (
+                <div
+                  className="text-sm text-gray-700 overflow-auto max-h-40"
+                  dangerouslySetInnerHTML={{ __html: recipeInfo.instructions }}
+                />
+              )}
             </div>
-          </>
-        ) : (
-          <ApiOverdose></ApiOverdose>
-        )}
-      </div>
-    );
+            <div className="col-span-1 row-span-1 p-4 bg-primary/60 rounded-lg flex flex-col">
+              <h3 className="text-lg font-semibold mb-3">
+                Nutrition Breakdown
+              </h3>
+              <div className="flex-1 flex items-center justify-center">
+                {recipeInfo && (
+                  <div className="h-56 w-56">
+                    <Doughnut
+                      data={nutritionData}
+                      options={{
+                        maintainAspectRatio: false,
+                        plugins: {
+                          legend: {
+                            position: "bottom",
+                            labels: {
+                              boxWidth: 12,
+                              padding: 10,
+                            },
+                          },
+                          tooltip: {
+                            callbacks: {
+                              label: function (context) {
+                                const value = context.raw;
+                                const unit =
+                                  context.label === "Calories" ? "kcal" : "g";
+                                return `${context.label}: ${value} ${unit}`;
+                              },
+                            },
+                          },
+                        },
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <BackButton top={10} left={10} p={10}></BackButton>
+        </>
+      ) : (
+        <ApiOverdose></ApiOverdose>
+      )}
+    </div>
+  );
 }

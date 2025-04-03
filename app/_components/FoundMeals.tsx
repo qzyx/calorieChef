@@ -45,7 +45,7 @@ export default function FoundMeals() {
   } else
     return (
       <div className="grow flex  overflow-hidden flex-col relative lg:block shadow-md  rounded-md   bg-primary/60 select-none ">
-        <BackButton top={3} left={3}></BackButton>
+        <BackButton top={10} left={10} p={10}></BackButton>
         {recipes?.length > 0 ? (
           <>
             <div className="flex gap-2  flex-wrap overflow-y-auto h-full">
